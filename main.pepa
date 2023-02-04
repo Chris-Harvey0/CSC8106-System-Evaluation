@@ -1,0 +1,35 @@
+rateArriveNew = 200;
+rateAdmit = 200;
+
+rateVentilatorRequired = 10;
+rateVentilatorNotRequired = 90;
+
+rateCovid = 70;
+rateLongCovid = 30;
+
+rateCovidRecoveryTime = 10;
+rateLongCovidRecoveryTime = 5;
+rateDischarge = 10;
+
+New_Patient = (arriveNew, rateArriveNew).New_Admit;
+
+New_Admit = (admit, rateVentilatorRequired).New_Ventilator_Required + (admit, rateVentilatorNotRequired).New_Ventilator_Not_Required;
+
+New_Ventilator_Required = (ventilatorRequired, rateCovid).New_Covid + (ventilatorRequired, rateLongCovid).New_Long_Covid;
+New_Ventilator_Not_Required = (ventilatorNotRequired, rateCovid).New_Covid + (ventilatorNotRequired, rateLongCovid).New_Long_Covid;
+
+New_Covid = (covid, rateCovidRecoveryTime).New_Discharge;
+New_Long_Covid = (longCovid, rateLongCovidRecoveryTime).New_Discharge;
+
+New_Discharge = (discharge, rateDischarge).Stop;
+
+Stop = (stop, rateDischarge).Stop;
+
+
+
+Covid = (covid, rateCovid).Covid;
+Long_Covid = (longCovid, rateLongCovid).Long_Covid;
+
+Discharge = (discharge, rateDischarge).Discharge;
+
+New_Patient[200] <covid, longCovid, discharge> (Covid||Long_Covid||Discharge)

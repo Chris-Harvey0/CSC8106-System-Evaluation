@@ -1,0 +1,24 @@
+rateCovidAndVentilatorArrive = 7;
+rateCovidAndNoVentilatorArrive = 63;
+rateLongCovidAndVentilatorArrive = 3;
+rateLongCovidAndNoVentilatorArrive = 27;
+rateCovid = 20;
+rateLongCovid = 2;
+rateExit = 1000;
+
+New_Patient = (arrive, rateCovidAndVentilatorArrive).New_Covid_And_Ventilator + 
+              (arrive, rateCovidAndNoVentilatorArrive).New_Covid + 
+			  (arrive, rateLongCovidAndVentilatorArrive).New_Long_Covid_And_Ventilator + 
+			  (arrive, rateLongCovidAndNoVentilatorArrive).New_Long_Covid;
+
+
+New_Covid_And_Ventilator = (covid, rateCovid).Exit;
+New_Covid = (covid, rateCovid).Exit;
+New_Long_Covid_And_Ventilator = (longCovid, rateLongCovid).Exit;
+New_Long_Covid = (longCovid, rateLongCovid).Exit;
+
+Covid = (covid, rateCovid).Covid;
+Long_Covid = (longCovid, rateLongCovid).Long_Covid;
+Exit = (exit, rateExit).Exit;
+
+New_Patient[200] <covid, longCovid> (Covid||Long_Covid)
