@@ -1,35 +1,37 @@
 rateArriveNew = 200;
-rateAdmit = 200;
-
-rateVentilatorRequired = 10;
-rateVentilatorNotRequired = 90;
-
-rateCovid = 70;
-rateLongCovid = 30;
-
-rateCovidRecoveryTime = 10;
-rateLongCovidRecoveryTime = 5;
+rateRegister = 44;
+rateTriage = 20;
+rateNewDoc = 13;
+rateTest = 34;
+rateAdmit = 10;
 rateDischarge = 10;
+rateElectronicRegister = 100;
+rateRegisterChoice = 1;
+rateElectronicRegisterChoice = 2;
 
-New_Patient = (arriveNew, rateArriveNew).New_Admit;
+New_Patient = (arriveNew, rateArriveNew).Register_Choice;
 
-New_Admit = (admit, rateVentilatorRequired).New_Ventilator_Required + (admit, rateVentilatorNotRequired).New_Ventilator_Not_Required;
+Register_Choice = (registerChoice, rateRegisterChoice).New_Register + (registerChoice, rateElectronicRegisterChoice).New_Electronic_Register;
 
-New_Ventilator_Required = (ventilatorRequired, rateCovid).New_Covid + (ventilatorRequired, rateLongCovid).New_Long_Covid;
-New_Ventilator_Not_Required = (ventilatorNotRequired, rateCovid).New_Covid + (ventilatorNotRequired, rateLongCovid).New_Long_Covid;
+New_Electronic_Register = (electronicRegister, rateElectronicRegister).New_Triage;
+New_Register = (register, rateRegister).New_Triage;
+New_Triage = (triage, rateTriage).See_Doc;
 
-New_Covid = (covid, rateCovidRecoveryTime).New_Discharge;
-New_Long_Covid = (longCovid, rateLongCovidRecoveryTime).New_Discharge;
+See_Doc = (newDoc, rateNewDoc).New_Discharge + 
+		  (newDoc, rateNewDoc).New_Test + 
+		  (newDoc, rateNewDoc).New_Admit;
 
+New_Test = (test, rateTest).See_Doc;
+New_Admit = (admit, rateAdmit).Stop;
 New_Discharge = (discharge, rateDischarge).Stop;
-
 Stop = (stop, rateDischarge).Stop;
 
-
-
-Covid = (covid, rateCovid).Covid;
-Long_Covid = (longCovid, rateLongCovid).Long_Covid;
-
+Electronic_Register = (electronicRegister, rateElectronicRegister).Electronic_Register;
+Register = (register, rateRegister).Register;
+Triage = (triage, rateTriage).Triage;
+Test = (test, rateTest).Test;
+Doctor_New = (newDoc, rateNewDoc).Doctor_New;
 Discharge = (discharge, rateDischarge).Discharge;
+Admit = (admit, rateAdmit).Admit;
 
-New_Patient[200] <covid, longCovid, discharge> (Covid||Long_Covid||Discharge)
+New_Patient[200] <electronicRegister, register, triage, test, newDoc, discharge, admit> (Electronic_Register||Register||Triage||Test||Doctor_New||Discharge||Admit)
