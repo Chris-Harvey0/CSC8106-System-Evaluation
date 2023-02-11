@@ -23,3 +23,7 @@ This second model was made to model the recovery of patients in the Covid ward.
 For this data on the proportion of patients with long Covid and the proportion of patients that required a ventilator was used.
 This model was then used to make findings about the number of ventilators required for the Covid patients.
 It was found that even though the normal Covid patients made up 70% of the patients they required almost half as many ventilator days as the long Covid patients.
+## Reflection
+This project allowed me to gain experience in performance evaluation using modelling which was not something I had used before.
+I was very pleased with the two models I created for this project and the modification of the original model that they were based on.
+This was reflected by the mark of 85/100 which I received for this project.
